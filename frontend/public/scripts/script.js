@@ -13,41 +13,48 @@ async function submitData() {
     console.log(dateFormatada)
 
     if (numPedido.value && (dateFormatada != "//" || statPedido.value != "0")) {
-        // Enviar dados
-        const response = await fetch('/api/pedido', {
-            method: "POST",
-            body: JSON.stringify({
-                numPedido: numPedido.value,
-                statPedido: statPedido.value,
-                datePedido: dateFormatada
-            }),
-            headers: {
-                'Content-type': 'application/json'
-            }
-        })
-        const data = await response.json()
+        try {
+            // Enviar dados
+            const response = await fetch('/api/pedido', {
+                method: "POST",
+                body: JSON.stringify({
+                    numPedido: numPedido.value,
+                    statPedido: statPedido.value,
+                    datePedido: dateFormatada
+                }),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            const data = await response.json()
 
-        // Mudar o texto de status
-        if (data.status == true) {
-            sendStatus.classList.add("text-success")
-            sendStatus.classList.remove("text-danger")
-            sendStatus.innerHTML = "Pedido atualizado com sucesso"
-        }
-        else {
+            // Mudar o texto de status
+            if (data.status == true) {
+                sendStatus.classList.add("text-success")
+                sendStatus.classList.remove("text-danger")
+                sendStatus.innerText = "Pedido atualizado com sucesso"
+            }
+            else {
+                sendStatus.classList.remove("text-success")
+                sendStatus.classList.add("text-danger")
+                sendStatus.innerText = "Erro no servidor ao criar o pedido"
+            }
+
+            // Resetar valores
+            numPedido.value = ""
+            statPedido.value = "0"
+            datePedido.value = ""
+        } catch (error) {
             sendStatus.classList.remove("text-success")
             sendStatus.classList.add("text-danger")
-            sendStatus.innerHTML = "Erro no servidor ao criar o pedido"
+            sendStatus.innerText = "O servidor não está respondendo"
         }
 
-        // Resetar valores
-        numPedido.value = ""
-        statPedido.value = "0"
-        datePedido.value = ""
     }
     else {
         // Mudar o texto de status
         sendStatus.classList.remove("text-success")
         sendStatus.classList.add("text-danger")
-        sendStatus.innerHTML = "Digite o número do pedido e preencha pelo menos um dos valores, status ou a data"
+        sendStatus.innerText = "Digite o número do pedido e preencha pelo menos um dos valores, status ou a data"
     }
 }

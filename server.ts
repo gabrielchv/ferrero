@@ -50,32 +50,32 @@ app.post('/api/pedido', async (req: any, res: any) => {
 
   try {
     // Garantir que possui o numero de pedido e pelo menos um dado
-  if (numPedido && (statPedido || datePedido)) {
-    console.log("Pedido atualizado")
+    if (numPedido && (statPedido || datePedido)) {
+      console.log("Pedido atualizado")
 
-    // Autenticar no google sheets
-    const auth = new google.auth.GoogleAuth({
-      keyFile: "credentials.json",
-      scopes: "https://www.googleapis.com/auth/spreadsheets",
-    });
-    const client = await auth.getClient()
-    const googleSheets = google.sheets({version: "v4", auth: client})
-    const spreadsheetId = process.env.SPREADSHEETID
+      // Autenticar no google sheets
+      const auth = new google.auth.GoogleAuth({
+        keyFile: "credentials.json",
+        scopes: "https://www.googleapis.com/auth/spreadsheets",
+      });
+      const client = await auth.getClient()
+      const googleSheets = google.sheets({version: "v4", auth: client})
+      const spreadsheetId = process.env.SPREADSHEETID
 
-    // Enviar os dados para o sheets
-    await googleSheets.spreadsheets.values.append({
-      auth,
-      spreadsheetId,
-      range: "Sheet!A:D",
-      valueInputOption: "USER_ENTERED",
-      resource: {
-        values : [
-          [numPedido, statPedido || "", datePedido || "", dataAtual]
-        ]
-      }
-    })
-    res.send({status: true})
-  }
+      // Enviar os dados para o sheets
+      await googleSheets.spreadsheets.values.append({
+        auth,
+        spreadsheetId,
+        range: "Sheet!A:D",
+        valueInputOption: "USER_ENTERED",
+        resource: {
+          values : [
+            [numPedido, statPedido || "", datePedido || "", dataAtual]
+          ]
+        }
+      })
+      res.send({status: true})
+    }
   } 
   catch (error) {
     console.log("Erro ao cadastrar, erro: " + error)
@@ -83,4 +83,4 @@ app.post('/api/pedido', async (req: any, res: any) => {
   }
 })
 
-app.listen(process.env.PORT || 8000, () => console.log(`Listening on port 8000`))
+app.listen(process.env.PORT || 8000, () => console.log(`http://localhost:8000/`))

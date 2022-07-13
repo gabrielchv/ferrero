@@ -8,6 +8,14 @@ option:first-child {
   display: none;
 }
 
+header {
+  background-color: #edc460;
+  img {
+    width: 100%;
+    max-width: 30rem;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .wrapper {
     border: solid 0px white;

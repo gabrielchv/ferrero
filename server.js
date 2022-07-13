@@ -84,4 +84,4 @@ app.post('/api/pedido', (req, res) => __awaiter(void 0, void 0, void 0, function
         res.send({ status: false });
     }
 }));
-app.listen(process.env.PORT || 8000, () => console.log(`Listening on port 8000`));
+app.listen(process.env.PORT || 8000, () => console.log(`http://localhost:8000/`));
