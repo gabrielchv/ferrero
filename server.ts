@@ -1,5 +1,4 @@
 const express = require('express')
-const cookieParser = require("cookie-parser")
 const path = require('path')
 const bodyParser = require('body-parser')
 const { google } = require('googleapis')
@@ -12,7 +11,6 @@ fs.writeFile("credentials.json", process.env.CREDENTIALS, 'utf8', () => {});
 
 const app = express()
 app.use(bodyParser.json())
-app.use(cookieParser())
 app.use(express.static(__dirname + '/frontend/public'))
 
 // Pedir a página principal
@@ -43,6 +41,7 @@ app.post('/api/pedido', async (req: any, res: any) => {
   // Dados do request
   const numPedido = req.body.numPedido
   const statPedido = opcoesEstadoDoPedido[req.body.statPedido - 1]
+  const prazoFaturamento = req.body.prazoFaturamento
   let datePedido = req.body.datePedido
   if (datePedido == "//") {
     datePedido = ""
@@ -50,7 +49,7 @@ app.post('/api/pedido', async (req: any, res: any) => {
 
   try {
     // Garantir que possui o numero de pedido e pelo menos um dado
-    if (numPedido && (statPedido || datePedido)) {
+    if (numPedido && (statPedido || datePedido || prazoFaturamento != "")) {
       console.log("Pedido atualizado")
 
       // Autenticar no google sheets
@@ -66,11 +65,11 @@ app.post('/api/pedido', async (req: any, res: any) => {
       await googleSheets.spreadsheets.values.append({
         auth,
         spreadsheetId,
-        range: "Sheet!A:D",
+        range: "Sheet!A:E",
         valueInputOption: "USER_ENTERED",
         resource: {
           values : [
-            [numPedido, statPedido || "", datePedido || "", dataAtual]
+            [numPedido, statPedido || "", datePedido || "", prazoFaturamento, dataAtual]
           ]
         }
       })

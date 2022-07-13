@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
-const cookieParser = require("cookie-parser");
 const path = require('path');
 const bodyParser = require('body-parser');
 const { google } = require('googleapis');
@@ -21,7 +20,6 @@ const fs = require("fs");
 fs.writeFile("credentials.json", process.env.CREDENTIALS, 'utf8', () => { });
 const app = express();
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(express.static(__dirname + '/frontend/public'));
 // Pedir a página principal
 app.get('/', (req, res) => {
@@ -48,13 +46,14 @@ app.post('/api/pedido', (req, res) => __awaiter(void 0, void 0, void 0, function
     // Dados do request
     const numPedido = req.body.numPedido;
     const statPedido = opcoesEstadoDoPedido[req.body.statPedido - 1];
+    const prazoFaturamento = req.body.prazoFaturamento;
     let datePedido = req.body.datePedido;
     if (datePedido == "//") {
         datePedido = "";
     }
     try {
         // Garantir que possui o numero de pedido e pelo menos um dado
-        if (numPedido && (statPedido || datePedido)) {
+        if (numPedido && (statPedido || datePedido || prazoFaturamento != "")) {
             console.log("Pedido atualizado");
             // Autenticar no google sheets
             const auth = new google.auth.GoogleAuth({
@@ -68,11 +67,11 @@ app.post('/api/pedido', (req, res) => __awaiter(void 0, void 0, void 0, function
             yield googleSheets.spreadsheets.values.append({
                 auth,
                 spreadsheetId,
-                range: "Sheet!A:D",
+                range: "Sheet!A:E",
                 valueInputOption: "USER_ENTERED",
                 resource: {
                     values: [
-                        [numPedido, statPedido || "", datePedido || "", dataAtual]
+                        [numPedido, statPedido || "", datePedido || "", prazoFaturamento, dataAtual]
                     ]
                 }
             });

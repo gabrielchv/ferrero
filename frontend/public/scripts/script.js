@@ -3,6 +3,7 @@ async function submitData() {
     const statPedido = document.getElementById('statPedido')
     const datePedido = document.getElementById('datePedido')
     const sendStatus = document.getElementById('sendStatus')
+    const prazoFaturamento = document.getElementById('prazoFaturamento')
 
     // Formatar data
     const dateArr = datePedido.value.split("-")
@@ -12,7 +13,7 @@ async function submitData() {
     const dateFormatada = dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0]
     console.log(dateFormatada)
 
-    if (numPedido.value && (dateFormatada != "//" || statPedido.value != "0")) {
+    if (numPedido.value && (dateFormatada != "//" || statPedido.value != "0" || prazoFaturamento.value != "")) {
         try {
             // Enviar dados
             const response = await fetch('/api/pedido', {
@@ -20,7 +21,8 @@ async function submitData() {
                 body: JSON.stringify({
                     numPedido: numPedido.value,
                     statPedido: statPedido.value,
-                    datePedido: dateFormatada
+                    datePedido: dateFormatada,
+                    prazoFaturamento: prazoFaturamento.value
                 }),
                 headers: {
                     'Content-type': 'application/json'
@@ -44,6 +46,8 @@ async function submitData() {
             numPedido.value = ""
             statPedido.value = "0"
             datePedido.value = ""
+            prazoFaturamento.value = ""
+
         } catch (error) {
             sendStatus.classList.remove("text-success")
             sendStatus.classList.add("text-danger")
@@ -55,6 +59,6 @@ async function submitData() {
         // Mudar o texto de status
         sendStatus.classList.remove("text-success")
         sendStatus.classList.add("text-danger")
-        sendStatus.innerText = "Digite o número do pedido e preencha pelo menos um dos valores, status ou a data"
+        sendStatus.innerText = "Digite o número do pedido e preencha pelo menos um dos valores, prazo para faturamento, status ou data"
     }
 }
