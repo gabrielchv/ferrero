@@ -57,7 +57,7 @@ app.post('/api/pedido', (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     try {
         // Garantir que possui o numero de pedido e pelo menos um dado
-        if (numPedido && (statPedido || datePedido || prazoFaturamento != "")) {
+        if (numPedido && (statPedido || datePedido || prazoFaturamento)) {
             console.log("Pedido atualizado");
             // Autenticar no google sheets
             const auth = new google.auth.GoogleAuth({
