@@ -10,7 +10,7 @@ const fs = require("fs")
 fs.writeFile("credentials.json", process.env.CREDENTIALS, 'utf8', () => {});
 
 const app = express()
-app.use(bodyParser.json())ah t
+app.use(bodyParser.json())
 app.use(express.static(__dirname + '/frontend/public'))
 
 // Pedir a página principal
@@ -41,7 +41,11 @@ app.post('/api/pedido', async (req: any, res: any) => {
   // Dados do request
   const numPedido = req.body.numPedido
   const statPedido = opcoesEstadoDoPedido[req.body.statPedido - 1]
-  const prazoFaturamento = req.body.prazoFaturamento
+  // formatando datas
+  let prazoFaturamento = req.body.prazoFaturamento
+  if (prazoFaturamento == "//") {
+    prazoFaturamento = ""
+  }
   let datePedido = req.body.datePedido
   if (datePedido == "//") {
     datePedido = ""

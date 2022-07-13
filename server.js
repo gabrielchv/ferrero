@@ -46,7 +46,11 @@ app.post('/api/pedido', (req, res) => __awaiter(void 0, void 0, void 0, function
     // Dados do request
     const numPedido = req.body.numPedido;
     const statPedido = opcoesEstadoDoPedido[req.body.statPedido - 1];
-    const prazoFaturamento = req.body.prazoFaturamento;
+    // formatando datas
+    let prazoFaturamento = req.body.prazoFaturamento;
+    if (prazoFaturamento == "//") {
+        prazoFaturamento = "";
+    }
     let datePedido = req.body.datePedido;
     if (datePedido == "//") {
         datePedido = "";
