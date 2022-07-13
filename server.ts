@@ -10,7 +10,7 @@ const fs = require("fs")
 fs.writeFile("credentials.json", process.env.CREDENTIALS, 'utf8', () => {});
 
 const app = express()
-app.use(bodyParser.json())
+app.use(bodyParser.json())ah t
 app.use(express.static(__dirname + '/frontend/public'))
 
 // Pedir a página principal

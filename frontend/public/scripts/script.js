@@ -1,3 +1,11 @@
+function dateFormat(date) {
+    const dateArr = date.value.split("-")
+    dateArr[0] = dateArr[0] || ""
+    dateArr[1] = dateArr[1] || ""
+    dateArr[2] = dateArr[2] || ""
+    return dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0]
+}
+
 async function submitData() {
     const numPedido = document.getElementById('numPedido')
     const statPedido = document.getElementById('statPedido')
@@ -5,15 +13,10 @@ async function submitData() {
     const sendStatus = document.getElementById('sendStatus')
     const prazoFaturamento = document.getElementById('prazoFaturamento')
 
-    // Formatar data
-    const dateArr = datePedido.value.split("-")
-    dateArr[0] = dateArr[0] || ""
-    dateArr[1] = dateArr[1] || ""
-    dateArr[2] = dateArr[2] || ""
-    const dateFormatada = dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0]
-    console.log(dateFormatada)
+    dateFormatada = dateFormat(datePedido);
+    prazoFaturamentoFormatada = dateFormat(prazoFaturamento);
 
-    if (numPedido.value && (dateFormatada != "//" || statPedido.value != "0" || prazoFaturamento.value != "")) {
+    if (numPedido.value && (dateFormatada != "//" || statPedido.value != "0" || prazoFaturamentoFormatada != "//")) {
         try {
             // Enviar dados
             const response = await fetch('/api/pedido', {
@@ -22,7 +25,7 @@ async function submitData() {
                     numPedido: numPedido.value,
                     statPedido: statPedido.value,
                     datePedido: dateFormatada,
-                    prazoFaturamento: prazoFaturamento.value
+                    prazoFaturamento: prazoFaturamentoFormatada
                 }),
                 headers: {
                     'Content-type': 'application/json'
