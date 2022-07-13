@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos Ferrero</title>
+    <link rel="stylesheet" type="text/css" href="./styles/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-7 col-sm-9 mx-auto">
+                <div class="wrapper my-5 py-3 gy-3">
+                    <p id="sendStatus" class="text-succ text-center"></p>
+                    <div>
+                        <label class="form-label">Número do pedido:</label>
+                        <input id="numPedido" type="text" class="form-control">
+                    </div>
+                    <hr>
+                    <label class="form-label">Status do pedido:</label>
+                    <select id="statPedido" class="form-control">
+                        <option value="0">Selecione uma opção</option>
+                        <option value="1">PO CONFIRMADO E EM PREPARAÇÃO</option>
+                        <option value="2">DESPACHADO PARA TRANSPORTADORA</option>
+                        <option value="3">DESPACHADO PARA A FERRERO</option>
+                        <option value="4">DISPONÍVEL PARA COLETA</option>
+                        <option value="5">EM ATRASO</option>
+                        <option value="6">CANCELADO</option>
+                    </select>
+                    <hr>
+                    <div>
+                        <label class="form-label">Previsão de entrega:</label>
+                        <input id="datePedido" type="date" class="form-control">
+                    </div>
+                    <hr>
+                    <div class="w-100 text-center">
+                        <button id="submitBtn" onclick="submitData()" class="btn btn-md btn-primary">Enviar
+                            dados</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./scripts/script.js"></script>
+    <script src="./styles/bootstrap/bootstrap.min.js"></script>
+</body>
+
+</html>
