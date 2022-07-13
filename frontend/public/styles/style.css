@@ -4,6 +4,10 @@
   border-radius: 15px;
 }
 
+#sendStatus {
+  font-weight: bold;
+}
+
 option:first-child {
   display: none;
 }
